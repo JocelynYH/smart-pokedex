@@ -42,15 +42,15 @@ pokedexData = json.loads(resp.content)
 #     #     json.dump(foundPokemon, file)
 #     json.dump(pokedexData, f, sort_keys=True, indent=4)
 
-file = open("caught.txt", "w")
-file.write("[")
+file = open("uncaught.txt", "w")
 file.seek(0)
+file.write("[")
 
 for pokemonElem in pokedexData:
     # if i === len(pokemonElem) - 1 and :
     #     file.write
-    if pokemonElem['captured']:
-        file.write('"'+ pokemonElem['pokemon']['name'] + '",')
+    if not pokemonElem['captured']:
+        file.write('"'+ pokemonElem['pokemon']['name'].lower() + '",')
 
 
 file.write("]")
