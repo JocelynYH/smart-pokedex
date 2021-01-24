@@ -15,7 +15,7 @@
   "manifest_version": 2,
   "content_scripts": [
     {
-      "matches": ["https://*.wikidex.net/*"],
+      "matches": ["https://*.serebii.net/pokearth/galar*"],
       "js": ["contentScript.js"]
     }
   ]
