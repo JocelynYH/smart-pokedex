@@ -1,7 +1,7 @@
 {
-  "name": "Getting Started from Developers Site",
+  "name": "Smart pokedex",
   "version": "1.0",
-  "description": "Build an Extension!",
+  "description": "Highlight the pokemon left in SWSH pokedex.",
   "permissions": ["activeTab", "declarativeContent", "storage", "https://pokedextracker.com/*"],
   "options_page": "options.html",
   "background": {
@@ -11,6 +11,11 @@
   "page_action": {
     "default_popup": "popup.html",
     "default_icon": "images/park-ball.png"
+  },
+  "icons": {
+    "16": "images/park-ball.png",
+    "48": "images/park-ball.png",
+    "128": "images/park-ball.png"
   },
   "manifest_version": 2,
   "content_scripts": [
