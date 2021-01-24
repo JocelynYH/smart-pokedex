@@ -5,25 +5,10 @@
 'use strict';
 
 chrome.runtime.onInstalled.addListener(function() {
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", "'https://pokedextracker.com/api/captures?dex=169280'", true);
-
-
-  xhr.onreadystatechange = function () {
-      console.log('xhr', xhr);
-      if (xhr.readyState == 4) {
-          console.log(xhr.responseText);
-      }
-  }
-  xhr.send();
-  console.log('xhr resp?', xhr)
-  chrome.storage.sync.set({color: '#ccc'}, function() {
-    console.log('The color is grey.');
-  });
-  chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
+  chrome.declarativeContent.onPageChanged.removeRules(undefined, function() { 
     chrome.declarativeContent.onPageChanged.addRules([{
       conditions: [new chrome.declarativeContent.PageStateMatcher({
-        pageUrl: {hostEquals: 'www.wikidex.net'},
+        pageUrl: {hostEquals: 'www.serebii.net'},
       })],
       actions: [new chrome.declarativeContent.ShowPageAction()]
     }]);
