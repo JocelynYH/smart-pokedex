@@ -43,8 +43,8 @@ pokedexData = json.loads(resp.content)
 #     json.dump(pokedexData, f, sort_keys=True, indent=4)
 
 file = open("caught.txt", "w")
-file.write("[")
 file.seek(0)
+file.write("[")
 
 for pokemonElem in pokedexData:
     # if i === len(pokemonElem) - 1 and :
