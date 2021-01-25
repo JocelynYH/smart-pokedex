@@ -6,21 +6,22 @@ async function highlightDom() {
 
   await getPokedexData();
   console.log("got data");
-  const visibleEncounters = Array.from(
+  const visibleEncounters = document.querySelector("h3 #Visible_encounters") ? Array.from(
     document.querySelector("h3 #Visible_encounters").parentElement
       .nextElementSibling.children[0].children
-  );
-  const randomEncounters = Array.from(
+  ) : [];
+  const randomEncounters = document.querySelector("h3 #Random_encounters") ? Array.from(
     document.querySelector("h3 #Random_encounters").parentElement
       .nextElementSibling.children[0].children
-  );
-  const wandering = Array.from(
+  ) : [];
+  const wandering = document.querySelector("h3 #Wanderers") ? Array.from(
     document.querySelector("h3 #Wanderers").parentElement.nextElementSibling
       .nextElementSibling.children[0].children
-  );
+  ) : [];
   const allPokemonInArea = visibleEncounters.concat(
     randomEncounters.concat(wandering)
   );
+  if (!allPokemonInArea) return;
 
   console.log("all pokemons from bulbapedia", allPokemonInArea);
 
