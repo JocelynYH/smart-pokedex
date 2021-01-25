@@ -6,34 +6,26 @@ async function highlightDom() {
 
   await getPokedexData();
   console.log("got data");
-  const visibleEncounters = document.querySelector("h3 #Visible_encounters") ? Array.from(
-    document.querySelector("h3 #Visible_encounters").parentElement
-      .nextElementSibling.children[0].children
-  ) : [];
-  const randomEncounters = document.querySelector("h3 #Random_encounters") ? Array.from(
-    document.querySelector("h3 #Random_encounters").parentElement
-      .nextElementSibling.children[0].children
-  ) : [];
-  const wandering = document.querySelector("h3 #Wanderers") ? Array.from(
-    document.querySelector("h3 #Wanderers").parentElement.nextElementSibling
-      .nextElementSibling.children[0].children
-  ) : [];
-  const allPokemonInArea = visibleEncounters.concat(
+  const visibleEncounters = getPokemonRows("h3 #Visible_encounters");
+  const randomEncounters = getPokemonRows("h3 #Random_encounters")
+  const wandering = getPokemonRows("h3 #Wanderers");
+
+  const allPokemonInAreaRows = visibleEncounters.concat(
     randomEncounters.concat(wandering)
   );
-  if (!allPokemonInArea) return;
+  if (!allPokemonInAreaRows) return;
 
-  console.log("all pokemons from bulbapedia", allPokemonInArea);
+  console.log("all pokemons from bulbapedia", allPokemonInAreaRows);
 
   chrome.storage.local.get(
     "pokedexData",
     function ({ pokedexData: allPokemon }) {
       const caught = getCaughtPokemon(JSON.parse(allPokemon));
       console.log("caught pokemans", caught);
-      console.log("all pokemon in area", allPokemonInArea);
+      console.log("all pokemon in area", allPokemonInAreaRows);
 
-      for (let i = 0; i < allPokemonInArea.length; i++) {
-        const row = allPokemonInArea[i];
+      for (let i = 0; i < allPokemonInAreaRows.length; i++) {
+        const row = allPokemonInAreaRows[i];
 
         // contains a pokemon. (not a header row)
         if (row.childElementCount > 5) {
@@ -88,4 +80,20 @@ function getCaughtPokemon(pokedexData) {
         if (pokemon["captured"]) caughtPokemonDict[name] = true;
       }
       return caughtPokemonDict;
+}
+
+function getPokemonRows(headerQuery) {
+    const header = document.querySelector(headerQuery).parentElement;
+
+    let sibling = header.nextElementSibling;
+
+    while (sibling.nodeName !== "H3") {
+        if (sibling.nodeName === "TABLE" && sibling.classList.contains('roundy')) {
+            const rows = sibling.querySelector('tbody').children;
+            return Array.from(rows);
+        }
+        sibling = sibling.nextElementSibling;
+    }
+
+    return [];
 }
