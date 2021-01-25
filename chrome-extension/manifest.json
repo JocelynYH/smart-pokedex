@@ -20,7 +20,7 @@
   "manifest_version": 2,
   "content_scripts": [
     {
-      "matches": ["https://*.serebii.net/pokearth/galar*"],
+      "matches": ["https://bulbapedia.bulbagarden.net/wiki/*"],
       "js": ["contentScript.js"]
     }
   ]
