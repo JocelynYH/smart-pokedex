@@ -1,10 +1,17 @@
 window.addEventListener("load", highlightDom, false);
 
+console.log('now running')
 async function highlightDom() {
+    console.log('running')
+
   await getPokedexData();
-  const allPokemonInArea = Array.from(
-    document.querySelectorAll("#content tbody tr .name")
-  );
+  console.log('got data')
+    const visibleEncounters = Array.from(document.querySelector("h3 #Visible_encounters").parentElement.nextElementSibling.children[0].children);
+    const randomEncounters = Array.from(document.querySelector("h3 #Random_encounters").parentElement.nextElementSibling.children[0].children);
+    const wandering = Array.from(document.querySelector("h3 #Wanderers").parentElement.nextElementSibling.nextElementSibling.children[0].children)
+    const allPokemonInArea = visibleEncounters.concat(randomEncounters.concat(wandering));
+
+    console.log('all pokemons from bulbapedia', allPokemonInArea)
 
   chrome.storage.local.get(
     "pokedexData",
@@ -14,25 +21,25 @@ async function highlightDom() {
       console.log("all pokemon in area", allPokemonInArea)
 
       for (let i = 0; i < allPokemonInArea.length; i++) {
-        const pokemonNameLink = allPokemonInArea[i];
+        const row = allPokemonInArea[i];
 
         // is a pokemon row
-
-        //   let pokemonName = pokemonNameLink.href.match(/(?<=pokedex-swsh\/).*/);
-        let pokemonName = pokemonNameLink.textContent;
-        if (!pokemonName) continue;
-        else
-          pokemonName = pokemonName
+        if (row.childElementCount > 6) {
+            let pokemonName = row.children[0].children[0].children[1].textContent;
+            pokemonName = pokemonName
             .toLowerCase()
             .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+            console.log("bulbapedia mon", pokemonName);
+            if (uncaught.indexOf(pokemonName) > -1)
+            for (let cell of Array.from(row[i].children)) {
+                cell.style.backgroundColor = 'grey' }
+        }
 
-        console.log("serebii mon", pokemonName);
 
         // drop enter symbol
 
         // if pokemon is caught, mark out the row
-        if (uncaught.indexOf(pokemonName) > -1)
-          pokemonNameLink.style.backgroundColor = "red";
+        
       }
     }
   );
