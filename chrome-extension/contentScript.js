@@ -83,17 +83,19 @@ function getCaughtPokemon(pokedexData) {
 }
 
 function getPokemonRows(headerQuery) {
-    const header = document.querySelector(headerQuery).parentElement;
+    const encounterSection = document.querySelector(headerQuery);
+    if (encounterSection) {
+        const header = encounterSection.parentElement;
+        let sibling = header.nextElementSibling;
 
-    let sibling = header.nextElementSibling;
-
-    while (sibling.nodeName !== "H3") {
-        if (sibling.nodeName === "TABLE" && sibling.classList.contains('roundy')) {
-            const rows = sibling.querySelector('tbody').children;
-            return Array.from(rows);
+        while (sibling.nodeName !== "H3") {
+            if (sibling.nodeName === "TABLE" && sibling.classList.contains('roundy')) {
+                const rows = sibling.querySelector('tbody').children;
+                return Array.from(rows);
+            }
+            sibling = sibling.nextElementSibling;
         }
-        sibling = sibling.nextElementSibling;
+    
     }
-
     return [];
 }
