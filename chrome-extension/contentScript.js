@@ -1,11 +1,8 @@
 window.addEventListener("load", highlightDom, false);
 
-console.log("now running");
 async function highlightDom() {
-  console.log("running");
 
   await getPokedexData();
-  console.log("got data");
   const visibleEncounters = getPokemonRows("h3 #Visible_encounters");
   const randomEncounters = getPokemonRows("h3 #Random_encounters")
   const wandering = getPokemonRows("h3 #Wanderers");
@@ -15,14 +12,11 @@ async function highlightDom() {
   );
   if (!allPokemonInAreaRows) return;
 
-  console.log("all pokemons from bulbapedia", allPokemonInAreaRows);
-
   chrome.storage.local.get(
     "pokedexData",
     function ({ pokedexData: allPokemon }) {
       const caught = getCaughtPokemon(JSON.parse(allPokemon));
-      console.log("caught pokemans", caught);
-      console.log("all pokemon in area", allPokemonInAreaRows);
+      console.log("caught pokemon", caught);
 
       for (let i = 0; i < allPokemonInAreaRows.length; i++) {
         const row = allPokemonInAreaRows[i];
@@ -35,9 +29,7 @@ async function highlightDom() {
           if (!spanWithPokemonName) continue;
           const pokemonName = spanWithPokemonName.textContent
             .toLowerCase()
-            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
-
-          console.log("bulbapedia mon", pokemonName);
+            .replace(/[,\/#!$%\^&\*;:{}=_`~()]/g, "");
 
           // if pokemon is caught, mark out the row
           if (caught[pokemonName]) {
@@ -97,5 +89,5 @@ function getPokemonRows(headerQuery) {
         }
     
     }
-    return [];
+    else return [];
 }
